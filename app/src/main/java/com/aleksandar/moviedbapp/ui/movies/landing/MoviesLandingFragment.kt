@@ -33,7 +33,7 @@ class MoviesLandingFragment : BaseFragment() {
     }
 
     private fun init(){
-
+        viewModel.getMovies()
     }
 
 }

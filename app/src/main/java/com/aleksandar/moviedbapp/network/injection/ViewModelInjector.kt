@@ -9,7 +9,6 @@ import javax.inject.Singleton
 
     fun inject(moviesLandingViewModel: MoviesLandingViewModel)
 
-
     @Component.Builder interface Builder {
         fun build(): ViewModelInjector
         fun networkModule(networkModule: NetworkModule): Builder
