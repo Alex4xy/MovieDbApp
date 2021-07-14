@@ -31,6 +31,7 @@ class MoviesLandingViewModel : BaseViewModel() {
     val moviesAdapter: MoviesAdapter = MoviesAdapter()
     var currentPage = 1
     var totalAvailablePages = 1
+    var isSearching: Boolean = false
 
     fun getMovies() {
         subscription = api.getMovies(MEDIA_TYPE_MOVIE, TIME_WINDOW_WEEK, TMDB_API_KEY, currentPage)
@@ -53,6 +54,26 @@ class MoviesLandingViewModel : BaseViewModel() {
                       )
     }
 
+    fun searchMovies(query:String) {
+        subscription = api.searchMovies(TMDB_API_KEY,query)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                onGetMoviesStart()
+            }
+            .doOnTerminate {
+                onGetMoviesFinish()
+            }
+            .subscribe(
+                {
+                    onSearchMoviesSuccess(it.results)
+                },
+                {
+                    onSearchMoviesError()
+                }
+                      )
+    }
+
     private fun onGetMoviesStart(){
         loadingVisibility.value = View.VISIBLE
         errorMessage.value = null
@@ -63,11 +84,21 @@ class MoviesLandingViewModel : BaseViewModel() {
     }
 
     private fun onGetMoviesSuccess(moviesList:ArrayList<MoviesResponse.Result>){
-        moviesAdapter.updateMoviesList(moviesList)
+        moviesAdapter.updateMoviesList(moviesList, false)
     }
 
     private fun onGetMoviesError(){
         errorMessage.value = R.string.movies_error
+        loadingVisibility.value = View.GONE
+    }
+
+    private fun onSearchMoviesSuccess(moviesList:ArrayList<MoviesResponse.Result>){
+        currentPage = 1
+        moviesAdapter.updateSearchList(moviesList, true)
+    }
+
+    private fun onSearchMoviesError(){
+        errorMessage.value = R.string.movies_search_error
         loadingVisibility.value = View.GONE
     }
 

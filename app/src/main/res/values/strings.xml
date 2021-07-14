@@ -2,4 +2,6 @@
     <string name="app_name">MovieDbApp</string>
     <string name="retry">Retry</string>
     <string name="movies_error">An error occurred while loading the movies</string>
+    <string name="movies_search_error">An error occurred while searching the movies</string>
+    <string name="search">search</string>
 </resources>

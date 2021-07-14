@@ -6,17 +6,27 @@ import com.aleksandar.moviedbapp.base.BaseViewModel
 import com.aleksandar.moviedbapp.model.MoviesResponse
 
 class MovieItemViewModel: BaseViewModel() {
-    private val movieTitle = MutableLiveData<String>()
+    private val movieTitle = MutableLiveData<String?>()
     private val imageUrl = MutableLiveData<String>()
 
     fun bind(movie: MoviesResponse.Result){
-        movieTitle.value = movie.title
+        when {
+            movie.originalTitle?.isNotEmpty() == true -> {
+                movieTitle.value = movie.originalTitle
+            }
+            movie.title?.isNotEmpty() == true        -> {
+                movieTitle.value = movie.title
+            }
+            movie.originalName?.isNotEmpty() == true -> {
+                movieTitle.value = movie.originalName
+            }
+        }
 
         val posterPath = movie.posterPath
         imageUrl.value = BuildConfig.POSTER_W300_URL + posterPath
     }
 
-    fun getMovieTitle():MutableLiveData<String>{
+    fun getMovieTitle(): MutableLiveData<String?> {
         return movieTitle
     }
 

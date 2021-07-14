@@ -17,7 +17,7 @@
         android:padding="@dimen/padding_16">
 
         <com.aleksandar.moviedbapp.util.views.RectangleImageWidthDependenceView
-            android:id="@+id/image_view_movie_poster"
+            android:id="@+id/imageViewMoviePoster"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             imageUrl="@{viewModel.imageUrl}"
@@ -26,13 +26,13 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text_view_movie_title"
+            android:id="@+id/textViewMovieTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="@color/black"
             app:mutableText="@{viewModel.getMovieTitle()}"
-            app:layout_constraintTop_toBottomOf="@+id/image_view_movie_poster"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewMoviePoster"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 

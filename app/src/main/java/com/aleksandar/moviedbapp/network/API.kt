@@ -6,6 +6,7 @@ import io.reactivex.Observable
 import retrofit2.http.*
 
 interface API {
+
     @Headers("Content-Type: application/vnd.api+json")
     @GET(BASE_URL + "trending/{media_type}/{time_window}")
     fun getMovies(
@@ -17,6 +18,13 @@ interface API {
       )
     : Observable<MoviesResponse>
 
+    @Headers("Content-Type: application/vnd.api+json")
+    @GET(BASE_URL + "search/tv")
+        fun searchMovies(
+            @Query("api_key") api_key: String?,
+            @Query("query") query: String?
+                     )
+                : Observable<MoviesResponse>
 
 }
 

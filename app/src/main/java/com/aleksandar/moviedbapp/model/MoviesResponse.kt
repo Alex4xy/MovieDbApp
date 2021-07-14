@@ -5,44 +5,46 @@ import com.google.gson.annotations.SerializedName
 
 data class MoviesResponse(
     @SerializedName("page")
-    val page: Int = 0,
+    val page: Int,
     @SerializedName("results")
     val results: ArrayList<Result> = arrayListOf(),
     @SerializedName("total_pages")
-    val totalPages: Int = 0,
+    val totalPages: Int,
     @SerializedName("total_results")
-    val totalResults: Int = 0
+    val totalResults: Int
 ) {
     data class Result(
         @SerializedName("adult")
-        val adult: Boolean = false,
+        val adult: Boolean?,
         @SerializedName("backdrop_path")
-        val backdropPath: String = "",
+        val backdropPath: String?,
         @SerializedName("genre_ids")
         val genreIds: List<Int> = listOf(),
         @SerializedName("id")
-        val id: Int = 0,
+        val id: Int?,
         @SerializedName("media_type")
-        val mediaType: String = "",
+        val mediaType: String?,
         @SerializedName("original_language")
-        val originalLanguage: String = "",
+        val originalLanguage: String?,
         @SerializedName("original_title")
-        val originalTitle: String = "",
+        val originalTitle: String?,
         @SerializedName("overview")
-        val overview: String = "",
+        val overview: String?,
         @SerializedName("popularity")
-        val popularity: Double = 0.0,
+        val popularity: Double?,
         @SerializedName("poster_path")
-        val posterPath: String = "",
+        val posterPath: String?,
         @SerializedName("release_date")
-        val releaseDate: String = "",
+        val releaseDate: String?,
         @SerializedName("title")
-        val title: String = "",
+        val title: String?,
+        @SerializedName("original_name")
+        val originalName: String?,
         @SerializedName("video")
-        val video: Boolean = false,
+        val video: Boolean?,
         @SerializedName("vote_average")
-        val voteAverage: Double = 0.0,
+        val voteAverage: Double?,
         @SerializedName("vote_count")
-        val voteCount: Int = 0
+        val voteCount: Int?
     )
 }
