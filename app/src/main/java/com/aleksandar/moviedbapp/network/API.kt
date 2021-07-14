@@ -2,7 +2,6 @@ package com.aleksandar.moviedbapp.network
 
 import com.aleksandar.moviedbapp.BuildConfig.BASE_URL
 import com.aleksandar.moviedbapp.model.MoviesResponse
-import com.google.gson.JsonElement
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -12,7 +11,10 @@ interface API {
     fun getMovies(
         @Path("media_type") media_type  :String?,
         @Path("time_window") time_window  :String?,
-        @Query("api_key") api_key: String?)
+        @Query("api_key") api_key: String?,
+        @Query("page") page: Int?
+
+      )
     : Observable<MoviesResponse>
 
 

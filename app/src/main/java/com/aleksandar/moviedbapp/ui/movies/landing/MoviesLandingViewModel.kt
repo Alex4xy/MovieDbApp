@@ -12,6 +12,11 @@ import com.aleksandar.moviedbapp.util.TMDB_API_KEY
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.util.logging.Handler
 import javax.inject.Inject
 
 class MoviesLandingViewModel : BaseViewModel() {
@@ -20,12 +25,15 @@ class MoviesLandingViewModel : BaseViewModel() {
     lateinit var api: API
     private lateinit var subscription: Disposable
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
+    val isLoadingMore: MutableLiveData<Int> = MutableLiveData()
     val errorMessage:MutableLiveData<Int> = MutableLiveData()
     val errorClickListener = View.OnClickListener { getMovies() }
     val moviesAdapter: MoviesAdapter = MoviesAdapter()
+    var currentPage = 1
+    var totalAvailablePages = 1
 
     fun getMovies() {
-        subscription = api.getMovies(MEDIA_TYPE_MOVIE, TIME_WINDOW_WEEK, TMDB_API_KEY)
+        subscription = api.getMovies(MEDIA_TYPE_MOVIE, TIME_WINDOW_WEEK, TMDB_API_KEY, currentPage)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
@@ -36,6 +44,7 @@ class MoviesLandingViewModel : BaseViewModel() {
             }
             .subscribe(
                 {
+                    totalAvailablePages = it.totalPages
                     onGetMoviesSuccess(it.results)
                 },
                 {
@@ -53,12 +62,13 @@ class MoviesLandingViewModel : BaseViewModel() {
         loadingVisibility.value = View.GONE
     }
 
-    private fun onGetMoviesSuccess(moviesList:List<MoviesResponse.Result>){
+    private fun onGetMoviesSuccess(moviesList:ArrayList<MoviesResponse.Result>){
         moviesAdapter.updateMoviesList(moviesList)
     }
 
     private fun onGetMoviesError(){
         errorMessage.value = R.string.movies_error
+        loadingVisibility.value = View.GONE
     }
 
     override fun onCleared() {

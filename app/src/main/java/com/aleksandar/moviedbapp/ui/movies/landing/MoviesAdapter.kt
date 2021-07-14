@@ -9,7 +9,7 @@ import com.aleksandar.moviedbapp.databinding.MovieItemBinding
 import com.aleksandar.moviedbapp.model.MoviesResponse
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
-    private lateinit var moviesList:List<MoviesResponse.Result>
+    private var moviesList:ArrayList<MoviesResponse.Result> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: MovieItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.movie_item, parent, false)
@@ -21,12 +21,13 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return if(::moviesList.isInitialized) moviesList.size else 0
+        return  moviesList.size
     }
 
-    fun updateMoviesList(postList:List<MoviesResponse.Result>){
-        this.moviesList = postList
-        notifyDataSetChanged()
+    fun updateMoviesList(moviesList:ArrayList<MoviesResponse.Result>){
+        val oldCount  = this.moviesList.size
+        this.moviesList.addAll(moviesList)
+        notifyItemRangeInserted(oldCount, moviesList.size)
     }
 
     class ViewHolder(private val binding: MovieItemBinding):RecyclerView.ViewHolder(binding.root){

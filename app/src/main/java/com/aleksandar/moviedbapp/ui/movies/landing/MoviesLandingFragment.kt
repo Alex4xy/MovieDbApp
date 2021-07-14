@@ -9,6 +9,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import com.aleksandar.moviedbapp.R
 import com.aleksandar.moviedbapp.base.BaseFragment
 import com.aleksandar.moviedbapp.base.ViewModelFactory
@@ -32,7 +33,22 @@ class MoviesLandingFragment : BaseFragment() {
         binding.viewModel = viewModel
 
         init()
+        setRecyclerViewScrollListener()
+    }
 
+    private fun setRecyclerViewScrollListener() {
+        binding.moviesRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if(!binding.moviesRecycler.canScrollVertically(1)){
+                if(viewModel.currentPage <= viewModel.totalAvailablePages){
+                    viewModel.currentPage += 1
+                    viewModel.isLoadingMore.value = View.VISIBLE
+                    viewModel.getMovies()
+                }
+                }
+            }
+        })
     }
 
     private fun init(){
@@ -41,6 +57,7 @@ class MoviesLandingFragment : BaseFragment() {
         })
 
         viewModel.getMovies()
+
     }
 
 

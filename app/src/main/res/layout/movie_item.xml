@@ -13,7 +13,8 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".ui.movies.landing.MoviesLandingFragment">
+        tools:context=".ui.movies.landing.MoviesLandingFragment"
+        android:padding="@dimen/padding_16">
 
         <com.aleksandar.moviedbapp.util.views.RectangleImageWidthDependenceView
             android:id="@+id/image_view_movie_poster"
