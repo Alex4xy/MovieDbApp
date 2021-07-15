@@ -38,7 +38,6 @@ fun setMutableText(view: AppCompatTextView,  text: MutableLiveData<String>?) {
 
 @BindingAdapter("imageUrl")
 fun setImageUrl(imgView: AppCompatImageView, imgUrl: String?){
-
     imgUrl?.let {
         val imgUri = it.toUri().buildUpon().scheme("https").build()
         Glide.with(imgView.context)
@@ -46,5 +45,20 @@ fun setImageUrl(imgView: AppCompatImageView, imgUrl: String?){
             .placeholder(R.drawable.ic_baseline_broken_image_24)
             .centerInside()
             .into(imgView)
+    }
+}
+
+@BindingAdapter("detailImageUrl")
+fun setDetailImageUrl(imgView: AppCompatImageView, imgUrl: MutableLiveData<String>?){
+    val parentActivity:AppCompatActivity? = imgView.getParentActivity()
+    if(parentActivity != null && imgUrl != null) {
+        imgUrl.observe(parentActivity, Observer {
+            imgUrl.let {
+                val imgUri = it.value?.toUri()?.buildUpon()?.scheme("https")?.build()
+                Glide.with(imgView.context).load(imgUri)
+                    .placeholder(R.drawable.ic_baseline_broken_image_24).centerInside()
+                    .into(imgView)
+            }
+        })
     }
 }

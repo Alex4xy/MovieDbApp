@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.aleksandar.moviedbapp.ui.movies.landing.MovieItemViewModel" />
+            type="com.aleksandar.moviedbapp.ui.movies.details.SimilarShowItemViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,24 +16,22 @@
         tools:context=".ui.movies.landing.MoviesLandingFragment"
         android:padding="@dimen/padding_16">
 
-        <com.aleksandar.moviedbapp.util.views.MainPosterImageView
+        <com.aleksandar.moviedbapp.util.views.SimilarShowsImageView
             android:id="@+id/imageViewMoviePoster"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             imageUrl="@{viewModel.imageUrl}"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewMovieTitle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textColor="@color/black"
             app:mutableText="@{viewModel.getMovieTitle()}"
             app:layout_constraintTop_toBottomOf="@+id/imageViewMoviePoster"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
 

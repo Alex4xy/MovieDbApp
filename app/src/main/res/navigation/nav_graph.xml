@@ -10,6 +10,19 @@
         android:name="com.aleksandar.moviedbapp.ui.movies.landing.MoviesLandingFragment"
         android:label="main_fragment"
         tools:layout="@layout/movies_landing_fragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.aleksandar.moviedbapp.ui.movies.details.DetailsFragment"
+        android:label="DetailsFragment" >
+        <action
+            android:id="@+id/action_detailsFragment_self"
+            app:destination="@id/detailsFragment"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true"/>
     </fragment>
 
 </navigation>

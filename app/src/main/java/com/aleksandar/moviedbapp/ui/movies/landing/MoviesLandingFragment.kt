@@ -89,7 +89,6 @@ class MoviesLandingFragment : BaseFragment(), SearchView.OnQueryTextListener, Se
                 if(!binding.moviesRecycler.canScrollVertically(1) && !viewModel.isSearching){
                     if(viewModel.currentPage <= viewModel.totalAvailablePages){
                         viewModel.currentPage += 1
-                        viewModel.isLoadingMore.value = View.VISIBLE
                         viewModel.getMovies()
                     }
                 }

@@ -6,17 +6,12 @@ import com.aleksandar.moviedbapp.R
 import com.aleksandar.moviedbapp.base.BaseViewModel
 import com.aleksandar.moviedbapp.model.MoviesResponse
 import com.aleksandar.moviedbapp.network.API
-import com.aleksandar.moviedbapp.util.MEDIA_TYPE_MOVIE
+import com.aleksandar.moviedbapp.util.MEDIA_TYPE_TV
 import com.aleksandar.moviedbapp.util.TIME_WINDOW_WEEK
 import com.aleksandar.moviedbapp.util.TMDB_API_KEY
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.util.logging.Handler
 import javax.inject.Inject
 
 class MoviesLandingViewModel : BaseViewModel() {
@@ -25,7 +20,6 @@ class MoviesLandingViewModel : BaseViewModel() {
     lateinit var api: API
     private lateinit var subscription: Disposable
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
-    val isLoadingMore: MutableLiveData<Int> = MutableLiveData()
     val errorMessage:MutableLiveData<Int> = MutableLiveData()
     val errorClickListener = View.OnClickListener { getMovies() }
     val moviesAdapter: MoviesAdapter = MoviesAdapter()
@@ -34,7 +28,7 @@ class MoviesLandingViewModel : BaseViewModel() {
     var isSearching: Boolean = false
 
     fun getMovies() {
-        subscription = api.getMovies(MEDIA_TYPE_MOVIE, TIME_WINDOW_WEEK, TMDB_API_KEY, currentPage)
+        subscription = api.getMovies(MEDIA_TYPE_TV, TIME_WINDOW_WEEK, TMDB_API_KEY, currentPage)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
