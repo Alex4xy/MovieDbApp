@@ -23,7 +23,7 @@ class SimilarShowItemViewModel: BaseViewModel() {
         }
 
         val posterPath = movie.posterPath
-        imageUrl.value = BuildConfig.POSTER_W300_URL + posterPath
+        imageUrl.value = BuildConfig.POSTER_W500_URL + posterPath
     }
 
     fun getMovieTitle(): MutableLiveData<String?> {

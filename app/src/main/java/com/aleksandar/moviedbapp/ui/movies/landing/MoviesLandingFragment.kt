@@ -115,4 +115,18 @@ class MoviesLandingFragment : BaseFragment(), SearchView.OnQueryTextListener, Se
         errorSnackbar?.dismiss()
     }
 
+    private fun showOfflineError(@StringRes errorMessage:Int){
+        errorSnackbar = Snackbar.make(binding.root, errorMessage, Snackbar.LENGTH_INDEFINITE)
+        errorSnackbar?.show()
+    }
+
+    private fun hideOfflineError(){
+        errorSnackbar?.dismiss()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(!isConnected)showOfflineError(R.string.error_message_offline) else hideOfflineError()
+    }
+
 }

@@ -7,4 +7,5 @@
     <dimen name="margin_20">20dp</dimen>
     <dimen name="margin_38">38dp</dimen>
     <dimen name="margin_6">6dp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
 </resources>

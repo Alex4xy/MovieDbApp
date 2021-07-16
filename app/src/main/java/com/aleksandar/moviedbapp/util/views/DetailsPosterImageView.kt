@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 
-class SimilarShowsImageView : AppCompatImageView {
+class DetailsPosterImageView : AppCompatImageView {
 
     constructor(context: Context) : super(context) {}
 

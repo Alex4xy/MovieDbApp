@@ -26,9 +26,13 @@ class DetailsViewModel(private val detailsDao: DetailsDao) : BaseViewModel() {
     private lateinit var subscription: Disposable
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
     private val detailImageUrl = MutableLiveData<String>()
-    val movieTitle: MutableLiveData<String> = MutableLiveData()
+    val overview: MutableLiveData<String> = MutableLiveData()
+    val name: MutableLiveData<String> = MutableLiveData()
+    val numberOfEpisodes: MutableLiveData<String> = MutableLiveData()
+    val numberOfSeasons: MutableLiveData<String> = MutableLiveData()
     val errorMessage:MutableLiveData<Int> = MutableLiveData()
     val similarShowsAdapter: SimilarShowsAdapter = SimilarShowsAdapter()
+    val seasonsAdapter: SeasonsAdapter = SeasonsAdapter()
 
     fun getMovieDetails(id: String?) {
         subscription = api.getDetails(id, TMDB_API_KEY)
@@ -80,13 +84,19 @@ class DetailsViewModel(private val detailsDao: DetailsDao) : BaseViewModel() {
     }
 
     private fun onGetMovieDetailsSuccess(movieDetails:MovieDetailsResponse){
-        movieTitle.value = movieDetails.originalName
+        overview.value = movieDetails.overview
+        name.value = movieDetails.name
+        numberOfEpisodes.value = "Episodes: " + movieDetails.numberOfEpisodes.toString()
+        numberOfSeasons.value = "Seasons: " + movieDetails.numberOfSeasons.toString()
 
         val posterPath = movieDetails.posterPath
-        detailImageUrl.value = BuildConfig.POSTER_W300_URL + posterPath
+        detailImageUrl.value = BuildConfig.POSTER_W500_URL + posterPath
 
         CoroutineScope(Dispatchers.IO).launch {
             detailsDao.insert(movieDetails)
+        }
+        CoroutineScope(Dispatchers.Main).launch {
+            seasonsAdapter.updateSeasonsList(movieDetails.seasons)
         }
     }
 
@@ -129,7 +139,6 @@ class DetailsViewModel(private val detailsDao: DetailsDao) : BaseViewModel() {
             detailsDao.update(movieItem)
         }
     }
-
 
     fun getFavourite(id: String?) : Boolean = runBlocking(Dispatchers.IO){
         try{

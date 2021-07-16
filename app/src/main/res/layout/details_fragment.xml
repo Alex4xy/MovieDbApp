@@ -9,10 +9,18 @@
             type="com.aleksandar.moviedbapp.ui.movies.details.DetailsViewModel" />
     </data>
 
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:clipToPadding="false">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/detailsView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".ui.main.MainFragment">
 
         <ProgressBar
@@ -24,7 +32,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <com.aleksandar.moviedbapp.util.views.MainPosterImageView
+        <com.aleksandar.moviedbapp.util.views.DetailsPosterImageView
             android:id="@+id/imageViewMoviePoster"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -33,14 +41,98 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/appCompatTextView"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewFavourite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/icon_favurites_with_circle_background"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewMoviePoster"
+            android:layout_margin="@dimen/padding_16"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageViewMoviePoster"
-            app:mutableText="@{viewModel.getMovieTitle()}" />
+            android:textColor="@color/black"
+            android:elegantTextHeight="true"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textSize="@dimen/text_size_16"
+            android:padding="@dimen/padding_16"
+            app:mutableText="@{viewModel.getName()}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewOverview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewFavourite"
+            android:textColor="@color/black"
+            android:elegantTextHeight="true"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textSize="@dimen/text_size_16"
+            android:padding="@dimen/padding_16"
+            app:mutableText="@{viewModel.getOverview()}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewNumberOfEpisodes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewOverview"
+            android:textColor="@color/black"
+            android:elegantTextHeight="true"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textSize="@dimen/text_size_16"
+            android:padding="@dimen/padding_16"
+            app:mutableText="@{viewModel.getNumberOfEpisodes()}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewNumberOfSeasons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNumberOfEpisodes"
+            android:textColor="@color/black"
+            android:elegantTextHeight="true"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textSize="@dimen/text_size_16"
+            android:paddingStart="@dimen/padding_16"
+            android:paddingEnd="@dimen/padding_16"
+            app:mutableText="@{viewModel.getNumberOfSeasons()}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/seasonsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:nestedScrollingEnabled="true"
+            android:clipToPadding="false"
+            android:layout_marginTop="@dimen/margin_40"
+            android:paddingStart="@dimen/padding_16"
+            android:paddingEnd="@dimen/padding_16"
+            app:adapter="@{viewModel.getSeasonsAdapter()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNumberOfSeasons"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewSimilarShowsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seasonsRecycler"
+            android:textColor="@color/black"
+            android:elegantTextHeight="true"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textSize="@dimen/text_size_16"
+            android:paddingStart="@dimen/padding_16"
+            android:paddingEnd="@dimen/padding_16"
+            android:text="@string/title_similar_shows"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/similarRecycler"
@@ -49,23 +141,17 @@
             android:fitsSystemWindows="true"
             android:nestedScrollingEnabled="true"
             android:clipToPadding="false"
+            android:layout_marginTop="@dimen/margin_40"
             android:paddingStart="@dimen/padding_16"
             android:paddingEnd="@dimen/padding_16"
             app:adapter="@{viewModel.getSimilarShowsAdapter()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewSimilarShowsTitle"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="horizontal"/>
 
-        <ImageView
-            android:id="@+id/imageViewFavourite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_favurites_with_circle_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatTextView"
-            android:layout_margin="@dimen/padding_16"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

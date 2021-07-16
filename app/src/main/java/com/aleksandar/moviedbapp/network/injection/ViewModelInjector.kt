@@ -2,6 +2,7 @@ package com.aleksandar.moviedbapp.network.injection
 
 import com.aleksandar.moviedbapp.network.module.NetworkModule
 import com.aleksandar.moviedbapp.ui.movies.details.DetailsViewModel
+import com.aleksandar.moviedbapp.ui.movies.details.SeasonItemViewModel
 import com.aleksandar.moviedbapp.ui.movies.details.SimilarShowItemViewModel
 import com.aleksandar.moviedbapp.ui.movies.landing.MovieItemViewModel
 import com.aleksandar.moviedbapp.ui.movies.landing.MoviesLandingViewModel
@@ -14,7 +15,7 @@ import javax.inject.Singleton
     fun inject(movieItemViewModel: MovieItemViewModel)
     fun inject(detailsViewModel: DetailsViewModel)
     fun inject(similarShowItemViewModel: SimilarShowItemViewModel)
-
+    fun inject(seasonItemViewModel: SeasonItemViewModel)
 
     @Component.Builder interface Builder {
         fun build(): ViewModelInjector
