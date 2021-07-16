@@ -19,9 +19,16 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
     private var searchList:ArrayList<MoviesResponse.Result> = arrayListOf()
     private var isSearching:Boolean = false
     private lateinit var binding: MovieItemBinding
+    private var parentWidth = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.movie_item, parent, false)
+
+        if (parentWidth == 0) parentWidth = parent.measuredWidth
+        binding.root.layoutParams = ViewGroup.LayoutParams(
+            (parentWidth*0.5).toInt(),
+            ViewGroup.LayoutParams.WRAP_CONTENT)
+
         return ViewHolder(binding)
     }
 
@@ -35,7 +42,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
             holder.bind(searchList[position])
         }
 
-        binding.imageViewMoviePoster.setOnClickListener {
+        binding.cardMovieItem.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
                 val id: String = if(!isSearching){
                     moviesList[position].id.toString()

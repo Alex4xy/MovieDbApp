@@ -8,6 +8,7 @@ import com.aleksandar.moviedbapp.model.MoviesResponse
 class MovieItemViewModel: BaseViewModel() {
     private val movieTitle = MutableLiveData<String?>()
     private val imageUrl = MutableLiveData<String>()
+    private val rating = MutableLiveData<String?>()
 
     fun bind(movie: MoviesResponse.Result){
         when {
@@ -24,6 +25,8 @@ class MovieItemViewModel: BaseViewModel() {
 
         val posterPath = movie.posterPath
         imageUrl.value = BuildConfig.POSTER_W300_URL + posterPath
+
+        rating.value = "Rating: " + movie.voteAverage.toString()
     }
 
     fun getMovieTitle(): MutableLiveData<String?> {
@@ -32,5 +35,9 @@ class MovieItemViewModel: BaseViewModel() {
 
     fun getImageUrl():MutableLiveData<String>{
         return imageUrl
+    }
+
+    fun getRating(): MutableLiveData<String?> {
+        return rating
     }
 }

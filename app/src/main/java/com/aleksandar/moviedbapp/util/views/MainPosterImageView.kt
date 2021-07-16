@@ -16,7 +16,7 @@ class MainPosterImageView : AppCompatImageView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
         val width = measuredWidth
-        setMeasuredDimension(width, width)
+        setMeasuredDimension(width, (width * 1.5).toInt())
     }
 
 }

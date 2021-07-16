@@ -22,7 +22,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "BASE_URL", '"https://api.themoviedb.org/3/"'
-        buildConfigField "String", "POSTER_W300_URL", '"https://image.tmdb.org/t/p/w300/"'
+        buildConfigField "String", "POSTER_W300_URL", '"https://image.tmdb.org/t/p/w500/"'
     }
 
     buildTypes {

@@ -10,4 +10,5 @@
 
     <color name="grey_transparent">#66cccccc</color>
     <color name="light">#C2C2C2</color>
+    <color name="transparent">#00000000</color>
 </resources>
