@@ -6,24 +6,24 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
-class ResultConverter{
+class StringTypeConverter{
 
-    @TypeConverter fun fromMoviesList(string: ArrayList<MoviesResponse.Result?>?): String? {
+    @TypeConverter fun fromList(string: List<String?>?): String? {
         if (string == null) {
             return null
         }
         val gson = Gson()
-        val type: Type = object : TypeToken<ArrayList<MoviesResponse.Result?>?>() {}.type
+        val type: Type = object : TypeToken<List<String?>?>() {}.type
         return gson.toJson(string, type)
     }
 
-    @TypeConverter fun toMoviesList(string: String?): ArrayList<MoviesResponse.Result>? {
+    @TypeConverter fun toList(string: String?): List<String>? {
         if (string == null) {
             return null
         }
         val gson = Gson()
-        val type: Type = object : TypeToken<ArrayList<MoviesResponse.Result?>?>() {}.type
-        return gson.fromJson<ArrayList<MoviesResponse.Result>>(string, type)
+        val type: Type = object : TypeToken<List<String?>?>() {}.type
+        return gson.fromJson<List<String>>(string, type)
     }
 
 }

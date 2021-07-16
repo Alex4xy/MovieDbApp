@@ -1,0 +1,4 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/fill_light_transparent_background_item"/>
+    <item android:bottom="8dp" android:left="8dp" android:top="8dp" android:right="8dp" android:drawable="@drawable/icon_heart"/>
+</layer-list>

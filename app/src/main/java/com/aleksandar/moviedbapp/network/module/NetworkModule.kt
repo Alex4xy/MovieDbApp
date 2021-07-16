@@ -20,7 +20,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    internal fun providePostApi(retrofit: Retrofit): API {
+    internal fun provideApi(retrofit: Retrofit): API {
         return retrofit.create(API::class.java)
     }
 

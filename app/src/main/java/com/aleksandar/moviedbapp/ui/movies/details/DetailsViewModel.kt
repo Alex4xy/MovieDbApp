@@ -7,14 +7,20 @@ import com.aleksandar.moviedbapp.R
 import com.aleksandar.moviedbapp.base.BaseViewModel
 import com.aleksandar.moviedbapp.model.MovieDetailsResponse
 import com.aleksandar.moviedbapp.model.MoviesResponse
+import com.aleksandar.moviedbapp.model.dao.DetailsDao
 import com.aleksandar.moviedbapp.network.API
 import com.aleksandar.moviedbapp.util.TMDB_API_KEY
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.lang.Exception
 import javax.inject.Inject
 
-class DetailsViewModel : BaseViewModel() {
+class DetailsViewModel(private val detailsDao: DetailsDao) : BaseViewModel() {
     @Inject
     lateinit var api: API
     private lateinit var subscription: Disposable
@@ -78,6 +84,10 @@ class DetailsViewModel : BaseViewModel() {
 
         val posterPath = movieDetails.posterPath
         detailImageUrl.value = BuildConfig.POSTER_W300_URL + posterPath
+
+        CoroutineScope(Dispatchers.IO).launch {
+            detailsDao.insert(movieDetails)
+        }
     }
 
     fun getDetailImageUrl():MutableLiveData<String>{
@@ -110,5 +120,23 @@ class DetailsViewModel : BaseViewModel() {
     override fun onCleared() {
         super.onCleared()
         subscription.dispose()
+    }
+
+    fun updateFavourite(id: String, isFavourite: Boolean) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val movieItem = detailsDao.getById(id.toInt())
+            movieItem.isFavourite = isFavourite
+            detailsDao.update(movieItem)
+        }
+    }
+
+
+    fun getFavourite(id: String?) : Boolean = runBlocking(Dispatchers.IO){
+        try{
+            val itemFav = detailsDao.getById(id?.toInt())
+            return@runBlocking itemFav.isFavourite
+        }catch (e:Exception){
+            return@runBlocking false
+        }
     }
 }

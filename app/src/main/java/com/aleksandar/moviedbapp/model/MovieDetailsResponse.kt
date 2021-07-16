@@ -1,17 +1,30 @@
 package com.aleksandar.moviedbapp.model
 
 
+import androidx.annotation.NonNull
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.aleksandar.moviedbapp.model.converter.*
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "details_response")
 data class MovieDetailsResponse(
+    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    var primaryKey: Int = 0,
     @SerializedName("backdrop_path")
     val backdropPath: String,
+    @TypeConverters(CreatedByTypeConverter::class)
     @SerializedName("created_by")
     val createdBy: List<CreatedBy> = listOf(),
+    @TypeConverters(IntTypeConverter::class)
     @SerializedName("episode_run_time")
     val episodeRunTime: List<Int> = listOf(),
     @SerializedName("first_air_date")
     val firstAirDate: String,
+    @TypeConverters(GenreTypeConverter::class)
     @SerializedName("genres")
     val genres: List<Genre> = listOf(),
     @SerializedName("homepage")
@@ -20,22 +33,27 @@ data class MovieDetailsResponse(
     val id: Int,
     @SerializedName("in_production")
     val inProduction: Boolean,
+    @TypeConverters(StringTypeConverter::class)
     @SerializedName("languages")
     val languages: List<String> = listOf(),
     @SerializedName("last_air_date")
     val lastAirDate: String,
+    @TypeConverters(LastEpisodeTypeConverter::class)
     @SerializedName("last_episode_to_air")
     val lastEpisodeToAir: LastEpisodeToAir,
     @SerializedName("name")
     val name: String,
+    @TypeConverters(NetworkTypeConverter::class)
     @SerializedName("networks")
     val networks: List<Network> = listOf(),
+    @TypeConverters(NextEpisodeTypeConverter::class)
     @SerializedName("next_episode_to_air")
     val nextEpisodeToAir: Any? = Any(),
     @SerializedName("number_of_episodes")
     val numberOfEpisodes: Int,
     @SerializedName("number_of_seasons")
     val numberOfSeasons: Int,
+    @TypeConverters(StringTypeConverter::class)
     @SerializedName("origin_country")
     val originCountry: List<String> = listOf(),
     @SerializedName("original_language")
@@ -48,12 +66,16 @@ data class MovieDetailsResponse(
     val popularity: Double,
     @SerializedName("poster_path")
     val posterPath: String,
+    @TypeConverters(ProductionCompanyTypeConverter::class)
     @SerializedName("production_companies")
     val productionCompanies: List<ProductionCompany> = listOf(),
+    @TypeConverters(ProductionCountryTypeConverter::class)
     @SerializedName("production_countries")
     val productionCountries: List<ProductionCountry> = listOf(),
+    @TypeConverters(SeasonTypeConverter::class)
     @SerializedName("seasons")
     val seasons: List<Season> = listOf(),
+    @TypeConverters(SpokenLanguagesTypeConverter::class)
     @SerializedName("spoken_languages")
     val spokenLanguages: List<SpokenLanguage> = listOf(),
     @SerializedName("status")
@@ -65,7 +87,8 @@ data class MovieDetailsResponse(
     @SerializedName("vote_average")
     val voteAverage: Double,
     @SerializedName("vote_count")
-    val voteCount: Int
+    val voteCount: Int,
+    var isFavourite: Boolean = false
 ) {
     data class CreatedBy(
         @SerializedName("credit_id")

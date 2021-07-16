@@ -4,7 +4,7 @@ package com.aleksandar.moviedbapp.model
 import androidx.annotation.NonNull
 import androidx.room.*
 import com.aleksandar.moviedbapp.model.converter.ResultConverter
-import com.aleksandar.moviedbapp.model.converter.GenreIdsConverter
+import com.aleksandar.moviedbapp.model.converter.IntTypeConverter
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "movies_response", indices = [Index(value = ["page", "results", "total_pages", "total_results"], unique = true)])
@@ -31,7 +31,7 @@ data class MoviesResponse(
         var adult: Boolean?,
         @SerializedName("backdrop_path")
         var backdropPath: String?,
-        @TypeConverters(GenreIdsConverter::class)
+        @TypeConverters(IntTypeConverter::class)
         @SerializedName("genre_ids")
         @ColumnInfo(name = "genre_ids_list")
         var genreIds: List<Int> = listOf(),

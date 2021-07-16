@@ -30,6 +30,7 @@ class DetailsFragment : BaseFragment() {
         binding.viewModel = viewModel
 
         init()
+        initListeners()
 
     }
 
@@ -38,6 +39,22 @@ class DetailsFragment : BaseFragment() {
         if(id.isNotEmpty()){
             viewModel.getMovieDetails(id)
             viewModel.getSimilar(id)
+
+            val isFavourite = viewModel.getFavourite(id)
+            binding.imageViewFavourite.setImageResource(if (isFavourite) R.drawable.icon_favurites_with_circle_background_selected else R.drawable.icon_favurites_with_circle_background)
+            binding.imageViewFavourite.isSelected = !isFavourite
+        }
+    }
+
+    private fun initListeners(){
+        binding.imageViewFavourite.setOnClickListener {
+            val isSelected = binding.imageViewFavourite.isSelected
+            binding.imageViewFavourite.isSelected = !isSelected
+            binding.imageViewFavourite.setImageResource(if (isSelected) R.drawable.icon_favurites_with_circle_background_selected else R.drawable.icon_favurites_with_circle_background)
+
+            if(id.isNotEmpty()){
+                viewModel.updateFavourite(id, isSelected)
+            }
         }
     }
 }
