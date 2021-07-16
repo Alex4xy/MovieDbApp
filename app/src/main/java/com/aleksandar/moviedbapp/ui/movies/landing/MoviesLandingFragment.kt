@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.SearchView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ import com.aleksandar.moviedbapp.R
 import com.aleksandar.moviedbapp.base.BaseFragment
 import com.aleksandar.moviedbapp.base.ViewModelFactory
 import com.aleksandar.moviedbapp.databinding.MoviesLandingFragmentBinding
+import com.aleksandar.moviedbapp.util.ConnectionCheck
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -23,6 +25,7 @@ class MoviesLandingFragment : BaseFragment(), SearchView.OnQueryTextListener, Se
     private lateinit var binding: MoviesLandingFragmentBinding
     private var errorSnackbar: Snackbar? = null
     private lateinit var searchView: SearchView
+    private var isConnected: Boolean = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.movies_landing_fragment, container, false)
@@ -67,7 +70,8 @@ class MoviesLandingFragment : BaseFragment(), SearchView.OnQueryTextListener, Se
                 viewModel.searchMovies(it)
             }else{
                 viewModel.isSearching = false
-                viewModel.getMovies()
+                isConnected = ConnectionCheck(requireActivity()).isConnectedToInternet()
+                viewModel.getMovies(isConnected)
             }
         }
         return true
@@ -78,7 +82,8 @@ class MoviesLandingFragment : BaseFragment(), SearchView.OnQueryTextListener, Se
             if (errorMessage != null) showError(errorMessage) else hideError()
         })
 
-        viewModel.getMovies()
+        isConnected = ConnectionCheck(requireActivity()).isConnectedToInternet()
+        viewModel.getMovies(isConnected)
 
     }
 
@@ -88,8 +93,12 @@ class MoviesLandingFragment : BaseFragment(), SearchView.OnQueryTextListener, Se
                 super.onScrolled(recyclerView, dx, dy)
                 if(!binding.moviesRecycler.canScrollVertically(1) && !viewModel.isSearching){
                     if(viewModel.currentPage <= viewModel.totalAvailablePages){
-                        viewModel.currentPage += 1
-                        viewModel.getMovies()
+                        isConnected = ConnectionCheck(requireActivity()).isConnectedToInternet()
+                        if(isConnected){
+                            viewModel.currentPage += 1
+                            viewModel.isScrolling = true
+                            viewModel.getMovies(isConnected)
+                        }
                     }
                 }
             }

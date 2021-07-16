@@ -8,7 +8,6 @@ import com.aleksandar.moviedbapp.base.BaseViewModel
 import com.aleksandar.moviedbapp.model.MovieDetailsResponse
 import com.aleksandar.moviedbapp.model.MoviesResponse
 import com.aleksandar.moviedbapp.network.API
-import com.aleksandar.moviedbapp.ui.movies.landing.MoviesAdapter
 import com.aleksandar.moviedbapp.util.TMDB_API_KEY
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

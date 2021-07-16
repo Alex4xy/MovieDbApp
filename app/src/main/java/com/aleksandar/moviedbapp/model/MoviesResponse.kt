@@ -1,50 +1,65 @@
 package com.aleksandar.moviedbapp.model
 
 
+import androidx.annotation.NonNull
+import androidx.room.*
+import com.aleksandar.moviedbapp.model.converter.ResultConverter
+import com.aleksandar.moviedbapp.model.converter.GenreIdsConverter
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "movies_response", indices = [Index(value = ["page", "results", "total_pages", "total_results"], unique = true)])
 data class MoviesResponse(
+    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    var primaryKey: Int = 0,
+    @ColumnInfo(name = "page")
     @SerializedName("page")
-    val page: Int,
+    var page: Int,
+    @TypeConverters(ResultConverter::class)
+    @ColumnInfo(name = "results")
     @SerializedName("results")
-    val results: ArrayList<Result> = arrayListOf(),
+    var results: ArrayList<Result> = arrayListOf(),
+    @ColumnInfo(name = "total_pages")
     @SerializedName("total_pages")
-    val totalPages: Int,
+    var totalPages: Int,
+    @ColumnInfo(name = "total_results")
     @SerializedName("total_results")
-    val totalResults: Int
-) {
+    var totalResults: Int
+){
     data class Result(
         @SerializedName("adult")
-        val adult: Boolean?,
+        var adult: Boolean?,
         @SerializedName("backdrop_path")
-        val backdropPath: String?,
+        var backdropPath: String?,
+        @TypeConverters(GenreIdsConverter::class)
         @SerializedName("genre_ids")
-        val genreIds: List<Int> = listOf(),
+        @ColumnInfo(name = "genre_ids_list")
+        var genreIds: List<Int> = listOf(),
         @SerializedName("id")
-        val id: Int?,
+        var id: Int?,
         @SerializedName("media_type")
-        val mediaType: String?,
+        var mediaType: String?,
         @SerializedName("original_language")
-        val originalLanguage: String?,
+        var originalLanguage: String?,
         @SerializedName("original_title")
-        val originalTitle: String?,
+        var originalTitle: String?,
         @SerializedName("overview")
-        val overview: String?,
+        var overview: String?,
         @SerializedName("popularity")
-        val popularity: Double?,
+        var popularity: Double?,
         @SerializedName("poster_path")
-        val posterPath: String?,
+        var posterPath: String?,
         @SerializedName("release_date")
-        val releaseDate: String?,
+        var releaseDate: String?,
         @SerializedName("title")
-        val title: String?,
+        var title: String?,
         @SerializedName("original_name")
-        val originalName: String?,
+        var originalName: String?,
         @SerializedName("video")
-        val video: Boolean?,
+        var video: Boolean?,
         @SerializedName("vote_average")
-        val voteAverage: Double?,
+        var voteAverage: Double?,
         @SerializedName("vote_count")
-        val voteCount: Int?
-    )
+        var voteCount: Int?
+                     )
 }
