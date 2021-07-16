@@ -129,7 +129,11 @@ class DetailsViewModel(private val detailsDao: DetailsDao) : BaseViewModel() {
 
     override fun onCleared() {
         super.onCleared()
+        try {
         subscription.dispose()
+        }catch (e:UninitializedPropertyAccessException){
+            e.printStackTrace()
+        }
     }
 
     fun updateFavourite(id: String, isFavourite: Boolean) {
